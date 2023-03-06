@@ -20,5 +20,5 @@ def profesores(request):
 def estudiantes(request):
     return HttpResponse("Vista Estudiantes")
 
-def entregables(request)
+def entregables(request):
     return HttpResponse("Vista Entregables")
