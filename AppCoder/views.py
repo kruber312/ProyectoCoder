@@ -1,6 +1,5 @@
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
 from AppCoder.models import Curso
-
 
 # Create your views here.
 def guardar_curso(request, camada):
@@ -9,7 +8,7 @@ def guardar_curso(request, camada):
     return HttpResponse("Usuario creado exitosamente")
 
 def inicio(request):
-    return HttpResponse("Vista Inicio")
+    return render(request, "AppCoder/index.html")
 
 def cursos(request):
     return HttpResponse("Vista Cursos")
