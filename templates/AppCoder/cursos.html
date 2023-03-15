@@ -3,7 +3,14 @@
 
 
 {% block contenido_cambia %}
-    <h1>El Contenido ha sido modificado</h1>
+
+    <form action="{% url "AppCoderCursos" %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Enviar">
+    </form>
+
+
     {% if cursos%}
         {% for curso in cursos %}
             <p>curso: {{  curso.nombre }}</p>
