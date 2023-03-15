@@ -2,16 +2,23 @@ from django.shortcuts import HttpResponse, render
 from AppCoder.models import Curso
 
 # Create your views here.
-def guardar_curso(request, camada):
-    curso = Curso(nombre="HTML",camada=camada,apellido="Coderhouse")
+def guardar_curso(request, nombre, camada):
+    curso = Curso(nombre=nombre,camada=camada,apellido="Coderhouse")
     curso.save()
-    return HttpResponse("Usuario creado exitosamente")
+    context = {
+        "nombre": nombre
+    }
+    return render(request, "AppCoder/guardar_curso.html", context=context)
 
 def inicio(request):
-    return render(request, "AppCoder/index.html")
+    return render(request, "base.html")
 
 def cursos(request):
-    return HttpResponse("Vista Cursos")
+    all_cursos = Curso.objects.all()
+    context = {
+        "cursos": all_cursos
+    }
+    return render(request, "AppCoder/cursos.html", context=context)
 
 def profesores(request):
     return HttpResponse("Vista Profesores")
