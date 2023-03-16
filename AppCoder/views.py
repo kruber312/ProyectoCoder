@@ -15,16 +15,7 @@ def inicio(request):
     return render(request, "base.html")
 
 def cursos(request):
-    if request.method == "POST":
-        mi_formulario = CursoForm(request.POST)
 
-        if mi_formulario.is_valid():
-            informacion = mi_formulario.cleaned_data
-            curso_save = Curso(
-                nombre=informacion["nombre"],
-                camada=informacion["camada"]
-            )
-            curso_save.save()
     all_cursos = Curso.objects.all()
     context = {
         "cursos": all_cursos,
@@ -52,3 +43,51 @@ def busqueda_curso(request):
             "cursos" : cursos_filtrados
         }
     return render(request, "AppCoder/buscar_curso.html", context=context)
+
+def crear_curso(request):
+    if request.method == "POST":
+        mi_formulario = CursoForm(request.POST)
+
+        if mi_formulario.is_valid():
+            informacion = mi_formulario.cleaned_data
+            curso_save = Curso(
+                nombre=informacion["nombre"],
+                camada=informacion["camada"]
+            )
+            curso_save.save()
+            return redirect("AppCoderCursos")
+    context = {
+        "form": CursoForm(),
+    }
+    return render(request,"AppCoder/crear_curso.html", context=context)
+
+def editar_curso(request, camada):
+    get_curso = Curso.objects.get(camada=camada)
+    if request.method == "POST":
+        mi_formulario = CursoForm(request.POST)
+
+        if mi_formulario.is_valid():
+            informacion = mi_formulario.cleaned_data
+
+            get_curso.nombre = informacion["nombre"]
+            get_curso.camada = informacion["camada"]
+
+            get_curso.save()
+            return redirect("AppCoderCursos")
+
+
+    context = {
+        "camada" : camada,
+        "form": CursoForm(initial={
+            "nombre": get_curso.nombre,
+            "camada":get_curso.camada,
+        })
+    }
+    return render(request, "AppCoder/editar_curso.html", context=context)
+
+
+def eliminar_curso(request, camada):
+    get_curso = Curso.objects.get(camada=camada)
+    get_curso.delete()
+
+    return redirect("AppCoderCursos")
