@@ -27,6 +27,7 @@
 
 
                 {% if user.is_authenticated %}
+                    <img src="{{ user.avatar.imagen.url }}" alt="Usuario" height="60px">
                     <a class="navbar-brand">{{ user.username }}</a>
                     <a class="btn btn-primary" href="{% url "accountLogout" %}">Logout</a>
                 {% else %}
